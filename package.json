@@ -3,12 +3,6 @@
   "version": "1.6.4",
   "description": "Raw sockets for Node.js.",
   "main": "index.js",
-  "directories": {
-    "example": "example"
-  },
-  "dependencies": {
-    "nan": "2.10.*"
-  },
   "contributors": [
     {
       "name": "Stephen Vickers",

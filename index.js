@@ -1,8 +1,63 @@
-
 var events = require ("events");
 var net = require ("net");
-var raw = require ("./build/Release/raw.node");
+var os = require ("os");
 var util = require ("util");
+var archs = ['rpi', 'octeon', 'x64', 'bcm53xx', 'annapurna', 'armada370', 'armada375', 'armada38x', 'rtd1296']
+var raw = requireB ("./build", "raw.node", archs);
+
+function findArchInString(string, arch) {
+	return string.indexOf(arch) !=-1
+}
+
+function guessArch() {
+	
+	try {
+		var cpu_model_string = os.cpus()[0]["model"];
+	}
+	catch (e) {
+		console.log("Error: "+e);
+		cpu_model_string = '';
+	}
+
+	switch (true) {
+	case findArchInString(cpu_model_string, "Annapurna"):
+		return 'annapurna';
+		break;
+	case findArchInString(cpu_model_string, "bcm53"):
+		return 'bcm53xx';
+		break;
+	case findArchInString(cpu_model_string, "octeon"):
+		return 'octeon';
+		break;
+	case findArchInString(cpu_model_string, "ARMv7"):
+		return 'rpi';
+		break;
+	default:
+		return 'x64';
+	}
+}
+
+function requireB(binaryPath, binaryFile, archs){
+	var sys_arch = guessArch()
+	var idx = archs.indexOf(sys_arch)
+	if (archs.indexOf(sys_arch) != -1) {
+		archs.splice(idx, 1);
+		archs.unshift(sys_arch)
+	}
+    for (index = 0; index < archs.length; index++) {
+    	var arch = archs[index];
+		try {
+			ret = require(binaryPath+'/'+arch+'/Release/'+binaryFile);
+		}
+		catch (e) {
+			console.log("Error: "+e);
+			ret = false
+		}
+		if (ret != false)
+			return ret
+	}
+	throw 'ArchNotFound'
+}
 
 function _expandConstantObject (object) {
 	var keys = [];
