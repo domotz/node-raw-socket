@@ -3,7 +3,7 @@ var net = require ("net");
 var os = require ("os");
 var util = require ("util");
 var archs = ['rpi', 'octeon', 'x64', 'bcm53xx', 'annapurna', 'armada370', 'armada375', 'armada38x', 'rtd1296']
-var raw = requireB ("./build", "raw.node", archs);
+var raw = requireB ("./binaries", "raw.node", archs);
 
 function findArchInString(string, arch) {
 	return string.indexOf(arch) !=-1
