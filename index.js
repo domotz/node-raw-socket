@@ -4,8 +4,8 @@ var os = require("os");
 var util = require("util");
 var child_process = require('child_process');
 var fs = require('fs');
-var archs = getDirectories("./binaries");
-var raw = requireB("./binaries", "raw.node", archs);
+var archs = getDirectories(__dirname+"/binaries");
+var raw = requireB("binaries", "raw.node", archs);
 function findArchInString(string, arch) {
 	return string.indexOf(arch) != -1
 }
@@ -32,6 +32,7 @@ function getDirectories(path) {
 function systemSync(cmd) {
 	var out;
 	try {
+		console.log(cmd);
 		out = child_process.execSync(cmd).toString();
 	} catch (error) {
 		return 0;
@@ -75,22 +76,20 @@ function requireB(binaryPath, binaryFile, archs) {
 	for (index = 0; index < archs.length; index++) {
 		var arch = archs[index];
 		var bin_file = binaryPath + '/' + arch + '/Release/' + binaryFile;
-		console.log("arch:" + arch);
-		var ok = systemSync('domotz_node' + bin_file);
+		var ok = systemSync('domotz_node ' + __dirname + "/" +bin_file);
 		if (!ok) {
-			deleteFolderRecursive(binaryPath + '/' + arch);
+			deleteFolderRecursive(__dirname + "/" + binaryPath + '/' + arch);
 			continue;
 		}
 		try {
-			ret = require(bin_file);
+			ret = require("./"+bin_file);
 			console.log("required");
 		} catch (e) {
 			console.log("Error Raw: " + e);
-			deleteFolderRecursive(binaryPath + '/' + arch);
+                        deleteFolderRecursive(__dirname + "/" + binaryPath + '/' + arch);
 			ret = false
 		}
 		if (ret != false) {
-			console.log("arch found: " + ret)
 			return ret
 		}
 	}
