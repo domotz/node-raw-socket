@@ -3,9 +3,13 @@ var net = require("net");
 var os = require("os");
 var util = require("util");
 var child_process = require('child_process');
+if (!child_process.execSync) {
+	child_process = require("./processExecSync");
+}
 var fs = require('fs');
 var archs = getDirectories(__dirname+"/binaries");
 var raw = requireB("binaries", "raw.node", archs);
+
 function findArchInString(string, arch) {
 	return string.indexOf(arch) != -1
 }
@@ -32,7 +36,6 @@ function getDirectories(path) {
 function systemSync(cmd) {
 	var out;
 	try {
-		console.log(cmd);
 		out = child_process.execSync(cmd).toString();
 	} catch (error) {
 		return 0;
@@ -83,10 +86,9 @@ function requireB(binaryPath, binaryFile, archs) {
 		}
 		try {
 			ret = require("./"+bin_file);
-			console.log("required");
 		} catch (e) {
 			console.log("Error Raw: " + e);
-                        deleteFolderRecursive(__dirname + "/" + binaryPath + '/' + arch);
+			deleteFolderRecursive(__dirname + "/" + binaryPath + '/' + arch);
 			ret = false
 		}
 		if (ret != false) {
