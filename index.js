@@ -69,6 +69,9 @@ function guessArch() {
 		case findArchInString(cpu_model_string, "ARMv7"):
 			return 'rpi';
 			break;
+		case findArchInString(cpu_model_string, "ARMv8"):
+			return 'arm64';
+			break;
 		default:
 			return 'x64';
 	}
