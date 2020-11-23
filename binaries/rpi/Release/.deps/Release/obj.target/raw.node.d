@@ -1,1 +1,1 @@
-cmd_Release/obj.target/raw.node := flock ./Release/linker.lock g++ -shared -pthread -rdynamic  -Wl,-soname=raw.node -o Release/obj.target/raw.node -Wl,--start-group Release/obj.target/raw/src/raw.o -Wl,--end-group 
+cmd_Release/obj.target/raw.node := g++ -o Release/obj.target/raw.node -shared -pthread -rdynamic  -Wl,-soname=raw.node -Wl,--start-group Release/obj.target/raw/src/raw.o -Wl,--end-group 
