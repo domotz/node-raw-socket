@@ -13,6 +13,9 @@
       "email": "hello@nospaceships.com"
     }
   ],
+  "dependencies": {
+    "nan": "2.14.*"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/nospaceships/node-raw-socket.git"
