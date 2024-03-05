@@ -1,1 +1,0 @@
-cmd_Release/obj.target/raw.node := /data/build-2.5.3/pkgsrc/toolchains/raspberry-arm64-1.0/work/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin//aarch64-linux-gnu-g++ -shared -pthread -rdynamic  -Wl,-soname=raw.node -o Release/obj.target/raw.node -Wl,--start-group Release/obj.target/raw/src/raw.o -Wl,--end-group 
